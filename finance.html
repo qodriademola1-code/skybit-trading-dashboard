@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance | Skybit Enterprise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="dash-top-nav">
+        <div class="brand-link">
+            <div class="brand-text"> SKYBIT <span class="brand-accent">FINANCE</span> </div>
+        </div>
+        <ul class="dash-links">
+            <li><a href="dashboard.html">Trade</a></li>
+            <li><a href="finance.html" class="active">Wallet</a></li>
+<li><a href="#" class="logout-text" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content-fluid">
+        <div class="auth-form purple-glass-auth" style="max-width: 500px; margin: 0 auto;">
+            <p style="font-weight: 800; color: #6b7280; text-transform: uppercase; font-size: 0.7rem;">Total Balance</p>
+            <h1 style="font-size: 2.5rem; font-weight: 900; color: #2563eb; margin-bottom: 20px;">₦<span id="user-balance">0.00</span></h1>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <button class="btn-main" onclick="openWithdrawal()" style="background: #10b981;">Withdraw</button>
+                <button class="btn-main" onclick="location.href='dashboard.html'" style="background: #9333ea;">Add Funds</button>
+            </div>
+
+            <div id="withdrawal-box" class="purple-glass-auth" style="display: none; padding: 20px; border-radius: 15px; margin-top: 20px; text-align: left;">
+    <h3 style="font-weight: 900; margin-bottom: 15px;">Withdraw Funds</h3>
+    
+    <!-- Bank Selection -->
+    <label style="font-size: 0.7rem; font-weight: 800; color: #6b7280;">CHOOSE BANK</label>
+    <select id="saved-bank-selector" class="dash-input" style="margin-bottom: 15px; width: 100%;">
+        <option value="">-- Select Saved Bank --</option>
+    </select>
+    
+    <button onclick="toggleBankForm()" style="background: none; border: none; color: #9333ea; font-size: 0.75rem; font-weight: 800; cursor: pointer; margin-bottom: 15px;">+ Add New Bank Account</button>
+
+    <!-- New Bank Form (Hidden by default) -->
+    <!-- Inside new-bank-form in finance.html -->
+<div id="new-bank-form" style="display: none; background: rgba(0,0,0,0.03); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+    <!-- Added Name Field -->
+    <input type="text" id="new-acc-name" class="dash-input" placeholder="Account Holder Name" style="margin-bottom: 10px; width: 100%;">
+    
+    <input type="text" id="new-acc-num" class="dash-input" placeholder="Account Number" style="margin-bottom: 10px; width: 100%;">
+    
+    <select id="new-bank-name" class="dash-input" style="margin-bottom: 10px; width: 100%;">
+        <option>Select Bank</option>
+        <option>GTBank</option>
+        <option>Zenith Bank</option>
+        <option>Kuda MFB</option>
+        <option>Opay</option>
+    </select>
+    <button class="btn-main" onclick="saveNewBank()" style="width: 100%; font-size: 0.8rem; padding: 8px;">Save Account</button>
+</div>
+
+
+    <label style="font-size: 0.7rem; font-weight: 800; color: #6b7280;">AMOUNT</label>
+    <input type="number" id="withdraw-amount" class="dash-input" placeholder="Amount to Withdraw" style="width: 100%; margin-bottom: 20px;">
+    
+<button class="btn-main" type="button" onclick="submitWithdrawalRequest()">Request Withdrawal</button>
+</div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+
+    <a href="https://wa.me/message/NEWDLIZGJRI2B1" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 448 512" width="30" height="30" fill="white">
+        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.4-11.4 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.2 3.7-5.5 5.5-9.2 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.7 23.5 9.2 31.6 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+</a>
+</body>
+</html>

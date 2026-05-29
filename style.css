@@ -1,0 +1,1261 @@
+/* =========================================
+   1. GENERAL RESET & FONTS
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f9fafb;
+    color: #1f2937;
+    line-height: 1.6;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* =========================================
+   2. GLOBAL LOGO WATERMARK
+   ========================================= */
+body::before {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 60vw;
+    background: url('skybitlogo.jpeg') no-repeat center;
+    background-size: contain;
+    opacity: 0.07;
+    filter: grayscale(100%);
+    z-index: -100;
+    pointer-events: none;
+}
+
+/* =========================================
+   3. NAVIGATION (LANDING & DASHBOARD)
+   ========================================= */
+.navbar, .dash-top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.brand-name {
+    font-weight: 900;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    color: #111827;
+    text-transform: uppercase;
+}
+
+.nav-links, .dash-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.nav-links a, .dash-links a {
+    text-decoration: none;
+    color: #4b5563;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.dash-links a.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
+}
+
+.logout-text { color: #dc2626 !important; }
+
+/* =========================================
+   4. AUTH PAGES (LOGIN/SIGNUP)
+   ========================================= */
+.auth-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-form {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.input-group { margin-bottom: 1.2rem; }
+.input-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* =========================================
+   5. DASHBOARD LAYOUT & COMPONENTS
+   ======================================== */
+.main-content-fluid { padding: 30px 5%; }
+
+/* Market Warning Ticker */
+.warning-bar {
+    background: #fffbeb; 
+    border-bottom: 1px solid #fde68a;
+    padding: 8px 5%;
+    position: sticky;
+    top: 70px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+}
+
+.warning-label {
+    background: #f59e0b;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+.warning-marquee {
+    display: inline-block;
+    animation: warning-train 25s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes warning-train {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Section Switching Logic */
+.content-section {
+    display: none;
+    width: 100%;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.active-section { display: block !important; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container fix: Ensures cards have breathing room and wrap correctly */
+/* Container: Forces 3 columns */
+#cards-container {
+    display: grid;
+    /* This creates exactly 3 equal columns */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 25px; /* Space between the boxes */
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px; /* Optional: keeps the dashboard from getting too wide */
+    margin: 0 auto; /* Centers the whole grid on the page */
+    box-sizing: border-box;
+}
+
+/* Card Box: Cleaned up for the 3-column grid */
+.asset-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Occupies the full space of the grid column */
+    border: 1px solid #eee;
+}
+
+/* Responsive fix: If the screen is too small (like a phone), drop to 1 column */
+@media (max-width: 900px) {
+    #cards-container {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+    }
+}
+
+@media (max-width: 600px) {
+    #cards-container {
+        grid-template-columns: 1fr; /* 1 column for mobile */
+    }
+}
+/* Rate Badge: Forced Light Purple */
+.rate-badge {
+    background-color: #6366f1 !important; /* Skybit Indigo/Purple */
+    color: #ffffff !important;
+    font-size: 0.75rem;
+    padding: 6px 15px;
+    border-radius: 50px;
+    display: inline-block;
+    margin: 12px auto;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+}
+
+/* Grid fix: Keeps inputs small and aligned */
+.card-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box; /* Keeps inputs inside the box */
+    padding: 0 5px;
+}
+
+.card-select-group input, 
+.card-select-group select {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+    padding: 5px;
+}
+
+/* =========================================
+   6. TABLES & BUTTONS
+   ========================================= */
+.skybit-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.skybit-table th { background: #f9fafb; padding: 15px; text-align: left; }
+.skybit-table td { padding: 15px; border-top: 1px solid #f3f4f6; }
+
+.btn-trade, .btn-submit-trade {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-trade:hover { background: #1d4ed8; }
+
+.badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+.badge.pending { background: #fffbeb; color: #b45309; }
+/* =========================================
+   1. HERO SECTION & LIGHT TINT BOX
+   ========================================= */
+.hero {
+    padding: 120px 5% 80px;
+    text-align: center;
+    background: transparent; /* Watermark shows through */
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Catchy Moving Train Text */
+.moving-train-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.moving-train-text {
+    display: inline-block;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #2563eb; /* Logo Blue */
+    animation: train-move 15s linear infinite;
+}
+
+@keyframes train-move {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+}
+
+/* Stylish Box below Header (Item 1 & 3) */
+.hero-desc-box {
+    background: rgba(37, 99, 235, 0.05); /* Very light blue tint */
+    border: 1px solid rgba(37, 99, 235, 0.1);
+    padding: 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(4px); /* Stylish blur without hiding logo */
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+/* Restore Stylish Button (Item 2) */
+.btn-main {
+    display: inline-block;
+    background: #2563eb;
+    color: white !important;
+    padding: 18px 45px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.1rem;
+    box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    transition: all 0.3s ease;
+    border: none;
+    margin-top: 10px;
+}
+
+.btn-main:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+}
+
+/* =========================================
+   2. FEATURES (Item 4 - No Background)
+   ========================================= */
+.security-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    padding: 60px 5%;
+    background: transparent; /* Zero coverage of watermark */
+}
+
+.feature {
+    padding: 30px;
+    background: transparent; /* No box background */
+    border: 1.5px dashed rgba(37, 99, 235, 0.2); /* Stylish dashed border only */
+    border-radius: 15px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.feature:hover {
+    border-style: solid;
+    border-color: #2563eb;
+}
+
+/* =========================================
+   FOOTER STYLE
+   ========================================= */
+footer {
+    background: #111827;
+    color: white;
+    padding: 60px 5% 20px;
+    text-align: center;
+}
+
+.footer-content h3 {
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.footer-bottom {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #374151;
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+.brand-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 12px;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    font-weight: 900;
+    line-height: 1;
+    color: #111827;
+}
+
+.brand-accent {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: #6b7280;
+    text-transform: uppercase;
+}
+/* =========================================
+   1. MOVING TRAIN HEADLINE (Main Title)
+   ========================================= */
+.headline-train-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.headline-train {
+    display: inline-block;
+    font-size: 2.8rem;
+    font-weight: 900;
+    padding-left: 100%; /* Start off-screen */
+    animation: train-roll 15s linear infinite;
+}
+
+@keyframes train-roll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+.colorful-text {
+    background: linear-gradient(to right, #2563eb, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* =========================================
+   1. STATIC POWERFUL HEADLINE (Item 1)
+   ========================================= */
+.static-header {
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+/* =========================================
+   1. MASTER BOX (Transparent Purple Glass)
+   ========================================= */
+.hero-master-box {
+    /* Transparent Light Purple Tint */
+    background: rgba(147, 51, 234, 0.05); 
+    border: 1.5px solid rgba(147, 51, 234, 0.15);
+    padding: 60px 40px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px); /* Stylish glass effect */
+    max-width: 1150px; /* Extended width */
+    width: 92%;
+    margin: 40px auto;
+    text-align: center;
+    position: relative;
+    overflow: hidden; /* CRITICAL: Keeps moving train inside */
+    box-shadow: 0 20px 50px rgba(147, 51, 234, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.hero-master-box:hover {
+    transform: translateY(-5px);
+}
+
+/* =========================================
+   2. CONTAINED BLUE TICKER STRIP
+   ========================================= */
+.blue-ticker-strip {
+    background: #2563eb; 
+    height: 32px;
+    width: 100%; /* Stays exactly inside the Master Box */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin: 25px 0;
+    border-radius: 6px;
+}
+
+.ticker-text {
+    white-space: nowrap;
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    animation: ticker-slide 25s linear infinite;
+    padding-left: 100%;
+}
+
+@keyframes ticker-slide {
+    from { transform: translateX(0); }
+    to { transform: translateX(-250%); }
+}
+
+/* =========================================
+   3. TYPOGRAPHY & BUTTONS
+   ========================================= */
+.static-header {
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 15px;
+    line-height: 1.1;
+}
+
+.stylish-description {
+    color: #1f2937;
+    font-size: 1.15rem;
+    font-weight: 800; /* Extra bold and stylish */
+    max-width: 850px;
+    margin: 0 auto 35px;
+    line-height: 1.6;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.colorful-text {
+    background: linear-gradient(to right, #2563eb, #9333ea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Watermark Boost */
+body::before {
+    opacity: 0.18; /* Higher visibility to see through purple */
+}
+.ticker-text {
+    white-space: nowrap;
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    animation: ticker-slide 25s linear infinite;
+}
+
+@keyframes ticker-slide {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+/* =========================================
+   FLOATING WHATSAPP BUTTON
+   ========================================= */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366; /* Official WhatsApp Green */
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    z-index: 10000; /* Ensures it stays above all other layers */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    background-color: #128c7e; /* Darker green on hover */
+    box-shadow: 2px 5px 15px rgba(37, 211, 102, 0.4);
+}
+
+/* Tooltip text that appears on hover (Optional) */
+.whatsapp-float::after {
+    content: "Chat with us";
+    position: absolute;
+    right: 70px;
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.whatsapp-float:hover::after {
+    opacity: 1;
+}
+.whatsapp-float i {
+    font-size: 35px; /* Adjusts the size of the 'W' logo */
+    line-height: 60px;
+    color: white;
+}
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    border-radius: 50px;
+    display: flex; /* Centers the SVG */
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+.card-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 12px;
+    margin: 15px 0;
+}
+
+.input-item {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-item label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 4px;
+    padding-left: 2px;
+}
+
+.input-item select, .input-item input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: #fff;
+    outline: none;
+}
+
+.card-header-mini {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: rgba(37, 99, 235, 0.03);
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.mini-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    margin-right: 10px;
+}
+
+/* Updated Rate Badge: Light Purple / Skybit Blue Theme */
+.rate-badge {
+    background: #6366f1; /* Modern Indigo/Purple to match professional logos */
+    color: #ffffff;
+    font-size: 0.7rem;
+    padding: 5px 14px;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3); /* Subtle glow */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Make the actual rate number extremely visible */
+#amazon-current-rate, #steam-current-rate {
+    color: #fff; /* Keep it white for max contrast against the purple */
+    background: rgba(0, 0, 0, 0.2); /* Darker sub-layer for the number */
+    padding: 1px 5px;
+    border-radius: 4px;
+    margin: 0 2px;
+}
+/* LIGHT PURPLE DASHBOARD THEME */
+.dashboard-purple-tint {
+    background: rgba(147, 51, 234, 0.05) !important;
+    border: 1.5px solid rgba(147, 51, 234, 0.15) !important;
+    backdrop-filter: blur(10px);
+}
+
+/* 1. STYLISH ASSET CARDS */
+.asset-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #edf2f7;
+    transition: 0.3s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.card-header-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #f7fafc;
+}
+
+.mini-logo {
+    height: 35px;
+    width: 35px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.asset-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #1a202c;
+}
+
+.dash-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* 2. PURPLE THEMED UPLOAD BOX */
+#upload-view .auth-form {
+    background: rgba(147, 51, 234, 0.04);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    box-shadow: 0 15px 35px rgba(147, 51, 234, 0.05);
+}
+
+#upload-view h2, #upload-view p, #upload-view label {
+    color: #2d3748 !important; /* Ensures high visibility on purple */
+}
+
+/* 3. PURPLE THEMED HISTORY TABLE */
+.skybit-table-container {
+    background: rgba(147, 51, 234, 0.03);
+    border-radius: 20px;
+    padding: 10px;
+    border: 1px solid rgba(147, 51, 234, 0.1);
+}
+
+.skybit-table th {
+    background: rgba(147, 51, 234, 0.1);
+    color: #6b46c1;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.skybit-table td {
+    color: #1a202c; /* Strong visibility for trade details */
+    font-weight: 600;
+    border-bottom: 1px solid rgba(147, 51, 234, 0.05);
+}
+
+/* 4. BUTTON UPGRADE */
+.btn-trade-v2 {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-trade-v2:hover {
+    background: #1e40af;
+    transform: translateY(-2px);
+}
+
+
+/* Price Tag Styling */
+.price-display-wrapper {
+    background: rgba(37, 99, 235, 0.05);
+    margin: 15px;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px dashed #2563eb;
+}
+
+.price-label {
+    display: block;
+    font-size: 0.7rem;
+    color: #6b7280;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.total-amount {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #2563eb;
+}
+.rate-badge {
+    background: #1e293b;
+    color: #f8fafc;
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+#amazon-current-rate {
+    color: #4ade80; /* Light green for the rate number */
+    margin-left: 2px;
+}
+/* Master Purple Glass for Auth & Tables */
+.purple-glass-theme {
+    background: rgba(147, 51, 234, 0.05) !important;
+    border: 1.5px solid rgba(147, 51, 234, 0.15) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(147, 51, 234, 0.05);
+}
+
+/* Fix for Table Visibility */
+.skybit-table-container.purple-glass-theme {
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.skybit-table {
+    background: transparent !important;
+}
+
+.skybit-table td {
+    color: #111827 !important; /* Deep black-grey for readability */
+    font-weight: 700;
+}
+/* LIGHT PURPLE THEME FOR AUTH & TABLES */
+.purple-glass-auth {
+    background: rgba(147, 51, 234, 0.05) !important;
+    border: 1.5px solid rgba(147, 51, 234, 0.15) !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 15px 35px rgba(147, 51, 234, 0.08);
+    padding: 3rem !important;
+}
+
+/* STYLISH GIFT CARD IMAGES (Identifiable but not overwhelming) */
+.card-banner {
+    width: 100%;
+    height: 140px;
+    overflow: hidden;
+    background: #eee;
+}
+
+.card-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Shows the card clearly */
+    transition: transform 0.3s;
+}
+
+.asset-card:hover .card-banner img {
+    transform: scale(1.05);
+}
+
+/* INPUT GRID FIX */
+.card-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 15px;
+}
+
+.input-item {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.input-item label {
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: #6b7280;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.input-item select, .input-item input {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+/* Ensure Table text is bold and visible on purple background */
+.skybit-table th {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: #6b21a8; /* Deep Purple for headers */
+    padding: 15px;
+    border-bottom: 2px solid rgba(147, 51, 234, 0.1);
+}
+
+.skybit-table td {
+    padding: 18px 15px;
+    color: #111827 !important; /* Pure Dark for trade details */
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* Badge visibility on purple */
+.badge.pending {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+}
+/* LIGHT PURPLE THEME VISIBILITY */
+.purple-glass-auth {
+    background: rgba(147, 51, 234, 0.05) !important;
+    border: 1.5px solid rgba(147, 51, 234, 0.15) !important;
+    backdrop-filter: blur(12px);
+    padding: 3rem !important;
+    border-radius: 20px;
+}
+
+/* Specific Upload Zone Fixes */
+.upload-zone:hover {
+    background: rgba(147, 51, 234, 0.1) !important;
+    border-color: #7c3aed !important;
+}
+
+/* Ensure placeholder text is visible on the light purple */
+::placeholder {
+    color: #9ca3af;
+    opacity: 1;
+}
+
+/* File list item styling */
+#file-list div {
+    background: rgba(16, 185, 129, 0.1);
+    padding: 5px 12px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+.balance-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    border-radius: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    background: rgba(147, 51, 234, 0.08) !important;
+    border: 1px solid rgba(147, 51, 234, 0.2) !important;
+}
+
+.balance-label {
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: #6b7280;
+    letter-spacing: 1.5px;
+}
+
+.balance-value {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #2563eb;
+    margin-top: 5px;
+    transition: 0.3s;
+}
+
+.hidden-balance {
+    filter: blur(8px);
+    pointer-events: none;
+    user-select: none;
+}
+
+.balance-toggle {
+    cursor: pointer;
+    font-size: 1.5rem;
+    background: white;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.balance-capsule {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px; /* Slimmer padding */
+    border-radius: 50px; /* Capsule shape */
+    width: fit-content;
+    min-width: 220px;
+    margin: 10px 0 25px 0; /* Aligns with your welcome text */
+    background: rgba(147, 51, 234, 0.05) !important;
+    border: 1px solid rgba(147, 51, 234, 0.15) !important;
+}
+
+.capsule-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 900;
+    color: #6b7280;
+    letter-spacing: 1px;
+    margin-bottom: -2px;
+}
+
+.capsule-value {
+    font-size: 1.1rem; /* Moderate size */
+    font-weight: 900;
+    color: #2563eb;
+    transition: 0.3s;
+}
+
+.hidden-balance {
+    filter: blur(6px);
+    user-select: none;
+}
+
+.capsule-toggle {
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-left: 15px;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.capsule-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* FIXED MODERATE BALANCE STYLING */
+.compact-balance-box {
+    display: flex;
+    align-items: center;
+    background: rgba(147, 51, 234, 0.05) !important;
+    border: 1.5px solid rgba(147, 51, 234, 0.15) !important;
+    padding: 10px 20px;
+    border-radius: 12px;
+    min-width: 180px; /* Keeps it from being too thin */
+    max-width: 240px; /* Keeps it from being too wide */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+
+.balance-data {
+    flex-grow: 1;
+}
+
+.small-label {
+    display: block;
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: #9ca3af;
+    letter-spacing: 0.8px;
+    margin-bottom: -2px;
+}
+
+.moderate-value {
+    font-size: 1.1rem; /* Perfectly moderate */
+    font-weight: 900;
+    color: #2563eb;
+    margin: 0;
+    transition: 0.3s ease;
+}
+
+.hidden-balance {
+    filter: blur(6px);
+    opacity: 0.4;
+    user-select: none;
+}
+
+.eye-toggle {
+    cursor: pointer;
+    font-size: 1.1rem;
+    margin-left: 15px;
+    background: #fff;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+/* NAVBAR MINI BALANCE */
+.nav-balance-wrapper {
+    margin: 0 15px; /* Adds space between Admin and Balance */
+    list-style: none;
+}
+
+.nav-balance-box {
+    display: flex;
+    align-items: center;
+    background: rgba(147, 51, 234, 0.05);
+    border: 1px solid rgba(147, 51, 234, 0.1);
+    padding: 4px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.nav-balance-box:hover {
+    background: rgba(147, 51, 234, 0.1);
+}
+
+.nav-balance-info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.nav-label {
+    font-size: 0.5rem;
+    font-weight: 900;
+    color: #9ca3af;
+    line-height: 1;
+}
+
+.nav-value {
+    font-size: 0.85rem; /* Small enough for Navbar */
+    font-weight: 900;
+    color: #2563eb;
+    line-height: 1.2;
+}
+
+.nav-eye {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* Hidden State */
+.hidden-balance {
+    filter: blur(4px);
+    opacity: 0.3;
+}
+/* ============================================================
+   SKYBIT MASTER OVERRIDE: SIGN-UP LINK COLOR SYNC
+   (Color: #6366f1 - Matching your Auth Text Link)
+   ============================================================ */
+
+/* 1. APPLY VIBRANT INDIGO TO ALL BRAND ELEMENTS */
+.btn-main, 
+.btn-signup, 
+.btn-trade, 
+.btn-trade-v2, 
+.blue-ticker-strip, 
+.nav-links .btn-signup,
+.hero-btns .btn-main {
+    background-color: #6366f1 !important;
+    background: #6366f1 !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2) !important;
+}
+
+.btn-main:hover, .btn-signup:hover {
+    background-color: #4f46e5 !important; /* Deeper indigo hover */
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 25px rgba(99, 102, 241, 0.3) !important;
+}
+
+/* 2. RE-COLOR LANDING PAGE TICKER & ACCENTS */
+.blue-ticker-strip {
+    background: #6366f1 !important;
+}
+
+.colorful-text {
+    background: linear-gradient(to right, #6366f1, #818cf8) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+/* 3. COMPACT & PROFESSIONAL PRICE BOXES */
+.price-display-wrapper {
+    background: rgba(99, 102, 241, 0.04) !important; 
+    border: 1px dashed rgba(99, 102, 241, 0.4) !important;
+    margin: 8px 15px !important; 
+    padding: 8px 15px !important; 
+    border-radius: 10px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: 48px !important; 
+    box-sizing: border-box !important;
+}
+
+.price-label {
+    font-size: 0.65rem !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    text-transform: uppercase !important;
+}
+
+.total-amount {
+    font-size: 1.15rem !important; 
+    font-weight: 900 !important;
+    color: #6366f1 !important; /* Indigo text */
+}
+
+/* 4. NAV BALANCE SYNC */
+.nav-balance-box {
+    background: rgba(99, 102, 241, 0.06) !important;
+    border: 1px solid rgba(99, 102, 241, 0.15) !important;
+}
+
+.nav-value {
+    color: #6366f1 !important;
+    font-weight: 800 !important;
+}
+
+/* 5. TABLE HEADERS SYNC */
+.skybit-table th {
+    color: #6366f1 !important;
+    background: rgba(99, 102, 241, 0.05) !important;
+}
+
+/* 6. WHATSAPP & GLOBAL UI */
+.whatsapp-float {
+    z-index: 99999 !important;
+}
+
+/* ============================================================
+   END OF INDIGO COLOR OVERRIDE
+   ============================================================ */
+
+   /* NOTIFICATION STYLING */
+.noti-badge {
+    position: absolute; top: -5px; right: -5px;
+    background: #ef4444; color: white;
+    font-size: 0.6rem; font-weight: 900;
+    padding: 2px 5px; border-radius: 50%;
+    border: 2px solid white;
+}
+
+.noti-dropdown {
+    position: absolute; top: 45px; right: 0;
+    width: 280px; max-height: 350px;
+    z-index: 10001; padding: 0 !important;
+    overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.noti-header {
+    padding: 12px 15px; border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.noti-body { overflow-y: auto; max-height: 300px; }
+
+.noti-item {
+    padding: 12px 15px; border-bottom: 1px solid rgba(0,0,0,0.03);
+    font-size: 0.75rem; transition: 0.2s; background: white;
+}
+
+.noti-item:hover { background: rgba(99, 102, 241, 0.03); }
+
+.noti-time { font-size: 0.6rem; color: #9ca3af; display: block; margin-top: 4px; }
+.content-section { display: none; }
+.active-section { display: block !important; }

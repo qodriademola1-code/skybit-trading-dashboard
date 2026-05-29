@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Skybit Enterprise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+    <nav class="dash-top-nav">
+        <div class="brand-link"><div class="brand-text">SKYBIT <span class="brand-accent">ADMIN</span></div></div>
+        <ul class="dash-links">
+            <li><a href="dashboard.html">Back to Site</a></li>
+            <li><a href="#" class="logout-text" onclick="logout()">Logout</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content-fluid">
+        <h2 style="font-weight: 900; margin-bottom: 20px;">Manage Pending Trades</h2>
+        <div class="skybit-table-container purple-glass-auth">
+            <table class="skybit-table">
+                <thead>
+    <tr>
+        <th>Trader</th>
+        <th>Asset & Details</th>
+        <th>Qty</th> <!-- New Header Row -->
+        <th>Payout</th>
+        <th>Proof</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+                <tbody id="admin-pending-trades">
+                    <!-- Trades appear here -->
+                </tbody>
+            </table>
+        </div>
+
+        <h2 style="font-weight: 900; margin: 40px 0 20px 0;">Registered Customers</h2>
+        <div class="skybit-table-container purple-glass-auth">
+            <table class="skybit-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Wallet Balance</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-user-list">
+                    <!-- Users appear here -->
+                </tbody>
+            </table>
+        </div>
+
+        <h2 style="margin: 40px 0 20px 0;">Withdrawal Requests</h2>
+<div class="skybit-table-container purple-glass-auth">
+    <table class="skybit-table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Bank Details</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="admin-withdraw-list"></tbody>
+    </table>
+</div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

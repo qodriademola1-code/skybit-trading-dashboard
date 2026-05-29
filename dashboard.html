@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Skybit Enterprise</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://googleapis.com" rel="stylesheet">
+
+</head>
+<body>
+
+    <!-- TOP NAVIGATION -->
+   <!-- UPDATED MASTER NAVIGATION -->
+<nav class="dash-top-nav">
+    <div class="brand-link">
+        <img src="skybitlogo.jpeg" alt="Skybit" style="height: 35px; border-radius: 5px;">
+        <div class="brand-text"> SKYBIT <span class="brand-accent">DASHBOARD</span> </div>
+    </div>
+    
+    <ul class="dash-links" style="align-items: center;">
+        <li><a href="#" class="active" onclick="navigateTo('dashboard-view')">Trade</a></li>
+        <li><a href="#" onclick="navigateTo('transaction-view')">History</a></li>
+        <li><a href="finance.html">Wallet</a></li> 
+        <li><a href="admin.html" style="color: #9333ea; font-weight: 800;">Admin</a></li> 
+        <!-- NOTIFICATION CENTER ICON -->
+<li class="nav-noti-wrapper" style="position: relative; list-style: none; margin-right: 15px;">
+    <div class="noti-bell-btn" onclick="toggleNotiPanel()" style="cursor: pointer; position: relative;">
+        <span style="font-size: 1.4rem;">🔔</span>
+        <span id="noti-count" class="noti-badge" style="display: none;">0</span>
+    </div>
+    
+    <!-- HIDDEN NOTIFICATION PANEL -->
+    <div id="noti-panel" class="noti-dropdown purple-glass-auth" style="display: none;">
+        <div class="noti-header">
+            <h4 style="margin: 0; font-size: 0.85rem;">Notifications</h4>
+            <span onclick="clearAllNoti()" style="font-size: 0.7rem; color: #6366f1; cursor: pointer; font-weight: 800;">Clear All</span>
+        </div>
+        <div id="noti-list" class="noti-body">
+            <!-- Dynamic alerts show here -->
+        </div>
+    </div>
+</li>
+
+
+        <!-- MINI NAV BALANCE -->
+        <li class="nav-balance-wrapper">
+            <div class="nav-balance-box" onclick="toggleBalance()">
+                <div class="nav-balance-info">
+                    <span class="nav-label">BALANCE</span>
+                    <span id="balance-amount" class="nav-value">₦0.00</span>
+                </div>
+                <span id="eye-icon" class="nav-eye">👁️</span>
+            </div>
+        </li>
+
+        <li><a href="#" class="logout-text" onclick="logout()">Logout</a></li>
+    </ul>
+</nav>
+
+
+    <!-- WARNING TICKER -->
+    <div class="warning-bar">
+        <span class="warning-label">MARKET ALERT</span>
+        <div class="warning-marquee">
+            ⚠️ High demand for Steam Cards! Rates are currently peaked. • BTC and ETH settlements may take up to 10 minutes due to network congestion. • Always verify your bank details before submitting.
+        </div>
+    </div>
+
+   <main class="main-content-fluid">
+    <!-- SINGLE COMPACT HEADER -->
+    <div class="header-flex-container" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px;">
+        
+        <!-- Welcome Section -->
+        <div class="welcome-text">
+            <p style="font-size: 0.8rem; font-weight: 800; color: #6b7280; text-transform: uppercase; margin: 0;">Account Overview</p>
+            <h1 style="font-size: 1.8rem; font-weight: 900; color: #111827; margin: 0;">
+                Welcome, <span id="user-display-name" style="color: #9333ea;">Trader</span>!
+            </h1>
+        </div>
+    </div>
+    
+    <!-- Rest of your dashboard sections... -->
+
+    
+        <!-- 1. TRADE / DASHBOARD VIEW -->
+        <section id="dashboard-view" class="content-section active-section">
+            <h2 style="margin-bottom: 25px;">Available Assets</h2>
+            
+            <div id="cards-container">
+                <!-- AMAZON -->
+<div class="asset-card">
+    <!-- Visual Image for Identification -->
+    <div class="card-banner">
+        <img src="Amazongiftcard.png" alt="Amazon Gift Card">
+    </div>
+    
+    <div style="padding: 15px 15px 0 15px; text-align: left;">
+        <h3 style="font-size: 1rem; font-weight: 900;">Amazon Gift Card</h3>
+        <span class="rate-badge" style="margin-top: 5px;">Rate: ₦<span id="amazon-current-rate">850</span></span>
+    </div>
+
+    <!-- Clean Input Grid -->
+    <div class="card-inputs-grid">
+        <div class="input-item">
+            <label>Country</label>
+            <select id="amazon-country">
+                <option value="usa">USA 🇺🇸</option>
+                <option value="uk">UK 🇬🇧</option>
+            </select>
+        </div>
+        <div class="input-item">
+            <label>Currency</label>
+            <select id="amazon-currency" onchange="calculateCardTotal('amazon')">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+            </select>
+        </div>
+        <div class="input-item">
+            <label>Amount</label>
+            <input type="number" id="amazon-amount" placeholder="0" oninput="calculateCardTotal('amazon')">
+        </div>
+        <div class="input-item">
+            <label>Quantity</label>
+            <input type="number" id="amazon-qty" value="1" oninput="calculateCardTotal('amazon')">
+        </div>
+    </div>
+
+    <div style="padding: 0 15px 15px 15px;">
+        <div class="price-display-wrapper purple-glass-auth" style="padding: 10px; margin: 0 0 15px 0;">
+            <span class="price-label">Payout</span>
+            <span class="total-amount" style="font-size: 1.3rem;">₦<span id="amazon-total">0</span></span>
+        </div>
+        <button class="btn-trade-v2" onclick="prepareUpload('Amazon', 'amazon-total')">Sell Asset</button>
+    </div>
+</div>
+
+
+                <!-- STEAM -->
+<div class="asset-card">
+    <!-- Visual Image for Identification -->
+    <div class="card-banner">
+        <img src="steamwallet.jpeg" alt="Steam Gift Card">
+    </div>
+    
+    <div style="padding: 15px 15px 0 15px; text-align: left;">
+        <h3 style="font-size: 1rem; font-weight: 900;">Steam Gift Card</h3>
+        <span class="rate-badge" style="margin-top: 5px;">Rate: ₦<span id="steam-current-rate">850</span></span>
+    </div>
+
+    <!-- Clean Input Grid -->
+    <div class="card-inputs-grid">
+        <div class="input-item">
+            <label>Country</label>
+            <select id="steam-country">
+                <option value="usa">USA 🇺🇸</option>
+                <option value="uk">UK 🇬🇧</option>
+            </select>
+        </div>
+        <div class="input-item">
+            <label>Currency</label>
+            <select id="steam-currency" onchange="calculateCardTotal('steam')">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+            </select>
+        </div>
+        <div class="input-item">
+            <label>Amount</label>
+            <input type="number" id="steam-amount" placeholder="0" oninput="calculateCardTotal('steam')">
+        </div>
+        <div class="input-item">
+            <label>Quantity</label>
+            <input type="number" id="steam-qty" value="1" oninput="calculateCardTotal('steam')">
+        </div>
+    </div>
+
+    <div style="padding: 0 15px 15px 15px;">
+        <div class="price-display-wrapper purple-glass-auth" style="padding: 10px; margin: 0 0 15px 0;">
+            <span class="price-label">Payout</span>
+            <span class="total-amount" style="font-size: 1.3rem;">₦<span id="steam-total">0</span></span>
+        </div>
+        <button class="btn-trade-v2" onclick="prepareUpload('Steam', 'steam-total')">Sell Asset</button>
+    </div>
+</div>
+
+
+                    <!-- RAZER GOLD -->
+<div class="asset-card">
+    <!-- Visual Image for Identification -->
+    <div class="card-banner">
+        <img src="razergoldgiftcard.jpeg" alt="Razer Gift Card">
+    </div>
+    
+    <div style="padding: 15px 15px 0 15px; text-align: left;">
+        <h3 style="font-size: 1rem; font-weight: 900;">Razer</h3>
+        <span class="rate-badge" style="margin-top: 5px;">Rate: ₦<span id="razergold-current-rate">850</span></span>
+    </div>
+
+    <!-- Clean Input Grid -->
+    <div class="card-inputs-grid">
+        <div class="input-item">
+            <label>Country</label>
+            <select id="razer-country">
+                <option value="usa">USA 🇺🇸</option>
+                <option value="uk">UK 🇬🇧</option>
+            </select>
+        </div>
+        <div class="input-item">
+            <label>Currency</label>
+            <select id="razer-currency" onchange="calculateCardTotal('razer')">
+                <option value="usd">USD</option>
+                <option value="eur">EUR</option>
+            </select>
+        </div>
+        <div class="input-item">
+            <label>Amount</label>
+            <input type="number" id="razer-amount" placeholder="0" oninput="calculateCardTotal('razer')">
+        </div>
+        <div class="input-item">
+            <label>Quantity</label>
+            <input type="number" id="razer-qty" value="1" oninput="calculateCardTotal('razer')">
+        </div>
+    </div>
+
+    <div style="padding: 0 15px 15px 15px;">
+        <div class="price-display-wrapper purple-glass-auth" style="padding: 10px; margin: 0 0 15px 0;">
+            <span class="price-label">Payout</span>
+            <span class="total-amount" style="font-size: 1.3rem;">₦<span id="razer-total">0</span></span>
+        </div>
+        <button class="btn-trade-v2" onclick="prepareUpload('Razer', 'razer-total')">Sell Asset</button>
+    </div>
+</div>
+ </div>
+        </section>
+
+        <!-- 2. UPLOAD VIEW -->
+        <!-- TRANSACTION HISTORY VIEW -->
+<section id="transaction-view" class="content-section">
+    <h2 style="margin-bottom: 25px; font-weight: 900;">Recent Transactions</h2>
+    
+    <!-- Table Wrapper with Full Purple Glass Tint -->
+    <div class="skybit-table-container purple-glass-auth">
+        <table class="skybit-table">
+            <thead>
+                <tr>
+                    <th>Asset</th>
+                    <th>Amount</th>
+                    <th>Payout</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="transaction-history-list">
+    <!-- LEAVE THIS EMPTY - JS WILL FILL IT -->
+</tbody>
+
+        </table>
+    </div>
+</section>
+
+        <!-- RESTORED UPLOAD VIEW -->
+<section id="upload-view" class="content-section">
+    <div class="auth-form purple-glass-auth" style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <h2 style="font-weight: 900; color: #111827; margin-bottom: 5px;">Finalize Your Trade</h2>
+        <p style="color: #4b5563; font-weight: 600; margin-bottom: 15px;">Asset: <strong id="up-asset-name" style="color: #9333ea;">---</strong></p>
+        
+        <div class="payout-summary" style="background: rgba(37, 99, 235, 0.08); padding: 15px; border-radius: 12px; margin-bottom: 25px;">
+            <span style="display: block; font-size: 0.75rem; font-weight: 800; color: #6b7280; text-transform: uppercase;">Estimated Payout</span>
+            <h3 style="color: #2563eb; font-size: 1.8rem; font-weight: 900; margin: 0;"><span id="up-asset-total">₦0</span></h3>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid rgba(147, 51, 234, 0.2); margin: 25px 0;">
+
+        <!-- Interactive Upload Box -->
+        <div class="upload-zone" style="border: 2px dashed #9333ea; padding: 30px; border-radius: 15px; background: rgba(255, 255, 255, 0.4); cursor: pointer; position: relative;">
+            <img src="upload-icon.png" alt="Upload" style="width: 40px; opacity: 0.6; margin-bottom: 10px;">
+            <p style="font-weight: 700; color: #111827; margin: 0;">Click or Drag to Upload Card Images</p>
+            <p style="font-size: 0.75rem; color: #6b7280;">(Upload front and back for faster verification)</p>
+            <input type="file" multiple id="card-files" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;" onchange="handleFiles(this.files)">
+        </div>
+
+        <div id="file-list" style="margin-top: 15px; text-align: left; font-size: 0.85rem; font-weight: 700; color: #059669;"></div>
+
+        <div class="input-group" style="margin-top: 25px;">
+            <input type="text" placeholder="Enter E-code or additional info (Optional)" style="background: white; border: 1.2px solid #ddd;">
+        </div>
+
+        <button class="btn-main" style="width: 100%; margin-top: 15px;" onclick="processTrade()">Confirm & Submit Trade</button>
+        
+        <p style="margin-top: 20px; font-weight: 800; color: #9333ea; cursor: pointer; font-size: 0.85rem;" onclick="navigateTo('dashboard-view')">
+            ← Go Back to Assets
+        </p>
+    </div>
+</section>
+
+
+    </main>
+
+    <script src="script.js"></script>
+
+    
+<!-- FLOATING WHATSAPP BUTTON -->
+<a href="https://wa.me/message/NEWDLIZGJRI2B1" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 448 512" width="30" height="30" fill="white">
+        <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.2-8.5-44.2-27.1-16.4-14.6-27.4-32.7-30.6-38.2-3.2-5.6-.3-8.6 2.4-11.4 2.5-2.5 5.5-6.5 8.3-9.7 2.8-3.2 3.7-5.5 5.5-9.2 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.7 23.5 9.2 31.6 11.8 13.3 4.2 25.4 3.6 35 2.2 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+    </svg>
+</a>
+</body>
+</html>
